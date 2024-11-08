@@ -1,7 +1,7 @@
 public class Token {
-  public final int TAG;
+  public final Tag TAG;
 
-  Token(int tag) {
+  Token(Tag tag) {
     TAG = tag;
   }
 
