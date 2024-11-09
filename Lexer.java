@@ -41,13 +41,7 @@ public class Lexer {
   }
 
   private void readch() throws IOException {
-    int result = file.read();
-    if (result == -1) {
-        // Fim do arquivo
-        ch = '¨';
-    } else {
-        ch = (char) result;
-    }
+    ch = (char) file.read();
   }
 
   private boolean readch(char c) throws IOException {
@@ -62,7 +56,6 @@ public class Lexer {
     for (;; readch()) {
       if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b') continue;
       else if (ch == '\n') Position.line ++; //conta linhas
-      else if (ch == '¨') return new Token(Tag.EOF);
       else break;
     }
     //Identificadores
