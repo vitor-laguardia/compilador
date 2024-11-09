@@ -11,5 +11,6 @@ enum Tag {
   DO,
   WHILE,
   SCAN,
-  PRINT;
+  PRINT,
+  EOF;
 }

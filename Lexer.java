@@ -1,3 +1,4 @@
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,10 +9,6 @@ public class Lexer {
   private FileReader file;
   private Hashtable words = new Hashtable();
 
-  private void reserve(Word w) {
-    words.put(w.getLexeme(), w); 
-  }
-
   public Lexer(String fileName) throws FileNotFoundException {
     try{
       file = new FileReader (fileName);
@@ -21,7 +18,14 @@ public class Lexer {
       throw e;
     }
 
-    //Insere palavras reservadas na HashTable
+    initializeReservedWordsInSymbolTable();
+  }
+
+  private void reserve(Word w) {
+    words.put(w.getLexeme(), w); 
+  }
+
+  private void initializeReservedWordsInSymbolTable() {
     reserve(new Word (Tag.START, "start"));
     reserve(new Word (Tag.EXIT, "exit"));
     reserve(new Word (Tag.INT, "int"));
@@ -37,7 +41,13 @@ public class Lexer {
   }
 
   private void readch() throws IOException {
-    ch = (char) file.read();
+    int result = file.read();
+    if (result == -1) {
+        // Fim do arquivo
+        ch = '¨';
+    } else {
+        ch = (char) result;
+    }
   }
 
   private boolean readch(char c) throws IOException {
@@ -48,6 +58,31 @@ public class Lexer {
   }
 
   public Token scan() throws IOException {
-    return new Token(null);
+    //Desconsidera delimitadores na entrada
+    for (;; readch()) {
+      if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b') continue;
+      else if (ch == '\n') Position.line ++; //conta linhas
+      else if (ch == '¨') return new Token(Tag.EOF);
+      else break;
+    }
+    //Identificadores
+    if (Character.isLetter(ch)) {
+      StringBuffer sb = new StringBuffer();
+
+      do {
+        sb.append(ch);
+        readch();
+      } while(Character.isLetterOrDigit(ch) || ch == '_') ;
+
+      String s = sb.toString();
+      Word w = (Word)words.get(s);
+      if (w != null) return w; //palavra já existe na HashTable
+      // w = new Word (s, Tag.ID);
+      // words.put(s, w);
+      return null;
+    }
+
+    ch = ' ';
+    return null;
   }
 }
