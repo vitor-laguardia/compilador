@@ -26,18 +26,18 @@ public class Lexer {
   }
 
   private void initializeReservedWordsInSymbolTable() {
-    reserve(new Word (Tag.START, "start"));
-    reserve(new Word (Tag.EXIT, "exit"));
-    reserve(new Word (Tag.INT, "int"));
-    reserve(new Word (Tag.FLOAT, "float"));
-    reserve(new Word (Tag.STRING, "string"));
-    reserve(new Word (Tag.IF, "if"));
-    reserve(new Word (Tag.THEN, "then"));
-    reserve(new Word (Tag.END, "end"));
-    reserve(new Word (Tag.DO, "do"));
-    reserve(new Word (Tag.WHILE, "while"));
-    reserve(new Word (Tag.SCAN, "scan"));
-    reserve(new Word (Tag.PRINT, "print"));
+    reserve(new Word ("start", Tag.START));
+    reserve(new Word ("exit", Tag.EXIT));
+    reserve(new Word ("int", Tag.INT));
+    reserve(new Word ("float", Tag.FLOAT));
+    reserve(new Word ("string", Tag.STRING));
+    reserve(new Word ("if", Tag.IF));
+    reserve(new Word ("then", Tag.THEN));
+    reserve(new Word ("end", Tag.END));
+    reserve(new Word ("do", Tag.DO));
+    reserve(new Word ("while", Tag.DO));
+    reserve(new Word ("scan", Tag.DO));
+    reserve(new Word ("print", Tag.DO));
   }
 
   private void readch() throws IOException {

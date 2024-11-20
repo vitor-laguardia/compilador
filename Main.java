@@ -14,7 +14,7 @@ public class Main {
       do {
         t = lexer.scan();
         System.out.println(t.toString());
-      } while (t.TAG != Tag.EOF);
+      } while (t.tag != Tag.EOF);
 
     } catch (IOException e) {
       // TODO Auto-generated catch block
