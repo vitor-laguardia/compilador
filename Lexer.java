@@ -35,9 +35,9 @@ public class Lexer {
     reserve(new Word ("then", Tag.THEN));
     reserve(new Word ("end", Tag.END));
     reserve(new Word ("do", Tag.DO));
-    reserve(new Word ("while", Tag.DO));
-    reserve(new Word ("scan", Tag.DO));
-    reserve(new Word ("print", Tag.DO));
+    reserve(new Word ("while", Tag.WHILE));
+    reserve(new Word ("scan", Tag.SCAN));
+    reserve(new Word ("print", Tag.PRINT));
   }
 
   private void readch() throws IOException {
