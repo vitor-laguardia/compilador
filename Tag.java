@@ -12,6 +12,14 @@ enum Tag {
   WHILE,
   SCAN,
   PRINT,
+
   // Identificador
-  IDENTIFIER;
+  IDENTIFIER,
+
+  // Operadores
+  RELOP,
+  ADDOP,
+  MULOP,
+  NOT,
+  ASSIGN;
 }

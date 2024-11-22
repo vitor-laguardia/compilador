@@ -14,7 +14,7 @@ public class Compiler {
       do {
         t = lexer.scan();
         if (t != null)
-          System.out.println(t.toString());
+          System.out.println(t.toString() + " " + t.TAG);
       } while (t != null);
 
     } catch (IOException e) {

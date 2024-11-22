@@ -82,7 +82,46 @@ public class Lexer {
       return w;
     }
 
+    // Operadores
+    switch (ch) {
+      case '=':
+        if (readch('='))
+          return new Word(Tag.RELOP, "==");
+        return new Token(Tag.ASSIGN);
+      case '>':
+        if (readch('='))
+          return new Word(Tag.RELOP, ">=");
+        return new Word(Tag.RELOP, ">");
+      case '<':
+        if (readch('='))
+          return new Word(Tag.RELOP, "<=");
+        return new Word(Tag.RELOP, "<");
+      case '!':
+        if (readch('='))
+          return new Word(Tag.RELOP, "!=");
+        return new Token(Tag.NOT);
+      case '+':
+        return new Word(Tag.ADDOP, "+");
+      case '-':
+        return new Word(Tag.ADDOP, "-");
+      case '|':
+        if (readch('|'))
+          return new Word(Tag.ADDOP, "||");
+        break; // tratar erro aqui?
+      case '*':
+        return new Word(Tag.MULOP, "*");
+      case '/':
+        return new Word(Tag.MULOP, "/");
+      case '%':
+        return new Word(Tag.MULOP, "%");
+      case '&':
+        if (readch('&'))
+          return new Word(Tag.MULOP, "&&");
+        break; // tratar erro aqui?
+    }
+
     ch = ' ';
     return null;
   }
+
 }
