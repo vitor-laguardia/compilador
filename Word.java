@@ -1,5 +1,5 @@
 class Word extends Token {
-  private String lexeme;
+  private String lexeme = "";
 
   Word(Tag tag, String lexeme) {
     super(tag);
@@ -13,4 +13,5 @@ class Word extends Token {
   public String toString() {
     return "" + lexeme;
   }
+
 }
