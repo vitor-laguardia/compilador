@@ -4,3 +4,6 @@ sim
 <
 || % && * + - % <= <
 adam
+int a = 10
+float b =  20.5
+float c = 30.a

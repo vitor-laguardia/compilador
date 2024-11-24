@@ -7,7 +7,7 @@ import java.util.Hashtable;
 public class Lexer {
   private char ch = ' ';
   private FileReader file;
-  private Hashtable words = new Hashtable();
+  private Hashtable<String, Word> words = new Hashtable<String, Word>();
 
   public Lexer(String fileName) throws FileNotFoundException {
     try {
@@ -82,42 +82,79 @@ public class Lexer {
       return w;
     }
 
+    // Números
+    if (Character.isDigit(ch)) {
+      int value = 0;
+
+      do {
+        value = 10 * value + Character.digit(ch, 10);
+        readch();
+      } while (Character.isDigit(ch));
+
+      if (ch != '.') {
+        return new IntegerConst(value);
+      }
+
+      readch();
+      if (!Character.isDigit(ch)) {
+        return new Word(Tag.ERROR, "Invalid float number");
+      }
+
+      float x = value;
+      float d = 10;
+
+      for (;;) {
+        x = x + Character.digit(ch, 10) / d;
+        d = d * 10;
+
+        readch();
+        if (!Character.isDigit(ch))
+          break;
+      }
+
+      return new FloatConst(x);
+    }
+
     // Operadores
     switch (ch) {
       case '=':
         if (readch('='))
-          return new Word(Tag.RELOP, "==");
+          return new Token(Tag.EQ);
         return new Token(Tag.ASSIGN);
       case '>':
         if (readch('='))
-          return new Word(Tag.RELOP, ">=");
-        return new Word(Tag.RELOP, ">");
+          return new Token(Tag.GREATER_EQ);
+        return new Token(Tag.GREATER);
       case '<':
         if (readch('='))
-          return new Word(Tag.RELOP, "<=");
-        return new Word(Tag.RELOP, "<");
+          return new Token(Tag.LESS_EQ);
+        return new Token(Tag.LESS);
       case '!':
         if (readch('='))
-          return new Word(Tag.RELOP, "!=");
+          return new Token(Tag.NOT_EQ);
         return new Token(Tag.NOT);
       case '+':
-        return new Word(Tag.ADDOP, "+");
+        return new Token(Tag.PLUS);
       case '-':
-        return new Word(Tag.ADDOP, "-");
+        return new Token(Tag.MINUS);
       case '|':
         if (readch('|'))
-          return new Word(Tag.ADDOP, "||");
-        break; // tratar erro aqui?
+          return new Token(Tag.OR);
+        else
+          return new Word(Tag.ERROR, "Invalid character '|'");
+
       case '*':
-        return new Word(Tag.MULOP, "*");
+        return new Token(Tag.MULT);
       case '/':
-        return new Word(Tag.MULOP, "/");
+        return new Token(Tag.DIV);
       case '%':
-        return new Word(Tag.MULOP, "%");
+        return new Token(Tag.MOD);
       case '&':
         if (readch('&'))
-          return new Word(Tag.MULOP, "&&");
-        break; // tratar erro aqui?
+          return new Token(Tag.AND);
+        else
+          return new Word(Tag.ERROR, "Invalid character '&'");
+
     }
 
     ch = ' ';

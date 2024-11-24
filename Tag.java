@@ -17,9 +17,35 @@ enum Tag {
   IDENTIFIER,
 
   // Operadores
-  RELOP,
-  ADDOP,
-  MULOP,
+  EQ,
+  GREATER,
+  GREATER_EQ,
+  LESS,
+  LESS_EQ,
+  NOT_EQ,
+  PLUS,
+  MINUS,
+  OR,
   NOT,
-  ASSIGN;
+  MULT,
+  DIV,
+  MOD,
+  AND,
+
+  // Literal
+  INT_CONST,
+  FLOAT_CONST,
+  STRING_CONST,
+
+  // Outros
+  OPEN_BRACKET,
+  CLOSE_BRACKET,
+  ASSIGN,
+  SEMICOLON,
+  COMMA,
+  OPEN_PAR,
+  CLOSE_PAR,
+  CHARACTER,
+  ERROR,
+  EOF,
 }
