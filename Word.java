@@ -1,15 +1,13 @@
 class Word extends Token {
   private String lexeme = "";
 
-  public static final Word eq = new Word("==", Tag.EQ);
-
-  public Word(String s, int tag) {
+  Word(Tag tag, String lexeme) {
     super(tag);
-    lexeme = s;
+    this.lexeme = lexeme;
   }
 
   public String getLexeme() {
-    return this.lexeme;
+    return lexeme;
   }
 
   public String toString() {

@@ -25,28 +25,22 @@ public class Lexer {
   }
 
   private void initializeReservedWordsInSymbolTable() {
-    reserve(new Word("start", Tag.START));
-    reserve(new Word("exit", Tag.EXIT));
-    reserve(new Word("int", Tag.INT));
-    reserve(new Word("float", Tag.FLOAT));
-    reserve(new Word("string", Tag.STRING));
-    reserve(new Word("if", Tag.IF));
-    reserve(new Word("then", Tag.THEN));
-    reserve(new Word("end", Tag.END));
-    reserve(new Word("do", Tag.DO));
-    reserve(new Word("while", Tag.WHILE));
-    reserve(new Word("scan", Tag.SCAN));
-    reserve(new Word("print", Tag.PRINT));
+    reserve(new Word(Tag.START, "start"));
+    reserve(new Word(Tag.EXIT, "exit"));
+    reserve(new Word(Tag.INT, "int"));
+    reserve(new Word(Tag.FLOAT, "float"));
+    reserve(new Word(Tag.STRING, "string"));
+    reserve(new Word(Tag.IF, "if"));
+    reserve(new Word(Tag.THEN, "then"));
+    reserve(new Word(Tag.END, "end"));
+    reserve(new Word(Tag.DO, "do"));
+    reserve(new Word(Tag.WHILE, "while"));
+    reserve(new Word(Tag.SCAN, "scan"));
+    reserve(new Word(Tag.PRINT, "print"));
   }
 
   private void readch() throws IOException {
-    int result = file.read();
-    if (result == -1) {
-      // Fim do arquivo
-      ch = '¨';
-    } else {
-      ch = (char) result;
-    }
+    ch = (char) file.read();
   }
 
   private boolean readch(char c) throws IOException {
@@ -59,16 +53,16 @@ public class Lexer {
 
   public Token scan() throws IOException {
     // Desconsidera delimitadores na entrada
-    for (;; readch()) {
+    while (true) {
+      readch();
       if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b')
         continue;
       else if (ch == '\n')
         Position.line++; // conta linhas
-      else if (ch == '¨')
-        return new Token(Tag.EOF);
       else
         break;
     }
+
     // Identificadores
     if (Character.isLetter(ch)) {
       StringBuffer sb = new StringBuffer();
@@ -82,12 +76,89 @@ public class Lexer {
       Word w = (Word) words.get(s);
       if (w != null)
         return w; // palavra já existe na HashTable
-      // w = new Word (s, Tag.ID);
-      // words.put(s, w);
-      return null;
+
+      w = new Word(Tag.IDENTIFIER, s);
+      words.put(s, w);
+      return w;
+    }
+
+    // Números
+    if (Character.isDigit(ch)) {
+      int value = 0;
+
+      do {
+        value = 10 * value + Character.digit(ch, 10);
+        readch();
+      } while (Character.isDigit(ch));
+
+      if (ch != '.') {
+        return new IntegerConst(value);
+      }
+
+      readch();
+      if (!Character.isDigit(ch)) {
+        return new Word(Tag.ERROR, "Invalid float number");
+      }
+
+      float x = value;
+      float d = 10;
+
+      for (;;) {
+        x = x + Character.digit(ch, 10) / d;
+        d = d * 10;
+
+        readch();
+        if (!Character.isDigit(ch))
+          break;
+      }
+
+      return new FloatConst(x);
+    }
+
+    // Operadores
+    switch (ch) {
+      case '=':
+        if (readch('='))
+          return new Token(Tag.EQ);
+        return new Token(Tag.ASSIGN);
+      case '>':
+        if (readch('='))
+          return new Token(Tag.GREATER_EQ);
+        return new Token(Tag.GREATER);
+      case '<':
+        if (readch('='))
+          return new Token(Tag.LESS_EQ);
+        return new Token(Tag.LESS);
+      case '!':
+        if (readch('='))
+          return new Token(Tag.NOT_EQ);
+        return new Token(Tag.NOT);
+      case '+':
+        return new Token(Tag.PLUS);
+      case '-':
+        return new Token(Tag.MINUS);
+      case '|':
+        if (readch('|'))
+          return new Token(Tag.OR);
+        else
+          return new Word(Tag.ERROR, "Invalid character '|'");
+
+      case '*':
+        return new Token(Tag.MULT);
+      case '/':
+        return new Token(Tag.DIV);
+      case '%':
+        return new Token(Tag.MOD);
+      case '&':
+        if (readch('&'))
+          return new Token(Tag.AND);
+        else
+          return new Word(Tag.ERROR, "Invalid character '&'");
+
     }
 
     ch = ' ';
     return null;
   }
+
 }
