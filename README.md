@@ -4,7 +4,7 @@
 
 - [ ] Organizar estrutura de diretórios (Filipe)
 - [ ] Criar classe tabela de símbolos e inicialiar os tokens restantes.
-- [ x ] Identificar comentários. (Matheus)
+- [x] Identificar comentários. (Matheus)
 - [ ] Identificar string.
 - [ ] Identificar pontuação.
 - [ ] Gerar tokens génericos para padrões desconhecidos.
