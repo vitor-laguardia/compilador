@@ -41,7 +41,11 @@ public class Lexer {
   }
 
   private void readch() throws IOException {
-    ch = (char) file.read();
+    int value = file.read();
+    if (value != -1)
+      ch = (char) value;
+    else
+      ch = '#';
   }
 
   private boolean readch(char c) throws IOException {
@@ -159,17 +163,30 @@ public class Lexer {
           return new Word(Tag.ERROR, "Invalid character '&'");
     }
 
+    // String const
+    if (ch == '{') {
+      StringBuffer sb = new StringBuffer();
+      readch();
+      do {
+        sb.append(ch);
+        readch();
+      } while (ch != '}' && ch != '\n');
+
+      String s = sb.toString();
+
+      if (ch == '}') {
+        ch = ' ';
+        return new StringConst(s);
+      }
+
+      return new Word(Tag.ERROR, "Erro: quebra de linha inesperada");
+    }
+
     // Outros caracteres
     switch (ch) {
       case ';':
         ch = ' ';
         return new Token(Tag.SEMICOLON);
-      case '{':
-        ch = ' ';
-        return new Token(Tag.OPEN_BRACKET);
-      case '}':
-        ch = ' ';
-        return new Token(Tag.CLOSE_BRACKET);
       case ',':
         ch = ' ';
         return new Token(Tag.COMMA);
@@ -181,8 +198,13 @@ public class Lexer {
         return new Token(Tag.CLOSE_PAR);
     }
 
+    if (ch == '#') {
+      return new Token(Tag.EOF);
+    }
+
+    Token t = new Word(Tag.ERROR, "" + ch);
     ch = ' ';
-    return null;
+    return t;
   }
 
 }
