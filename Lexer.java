@@ -146,6 +146,30 @@ public class Lexer {
       case '*':
         return new Token(Tag.MULT);
       case '/':
+      //comment
+      readch();
+      if (ch =='/'){
+        while (ch != '\n' && ch != (char)-1) {
+          readch();
+        }
+        return scan();
+      }
+      if (ch == '*'){
+        readch();
+        boolean incomment = true;
+        while (incomment){
+          if (ch == '\n')
+            Position.line++;
+          if (ch == '*')
+            if (readch('/'))
+              incomment = false;
+          if (ch == (char)-1)
+            return new Word(Tag.ERROR, "Comment not closed");
+          else
+            readch();
+        }
+        return scan();    
+      }  
         return new Token(Tag.DIV);
       case '%':
         return new Token(Tag.MOD);

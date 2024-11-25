@@ -1,9 +1,5 @@
-then if start end float string while string print sera que vai funcionar teste123 teste_sim1 = sete == oi >= 
-sim
->
-<
-|| % && * + - % <= <
-adam
-int a = 10
-float b =  20.5
-float c = 30.a
+/
+//
+/* teste */
+
+a = 10;
