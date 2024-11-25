@@ -159,6 +159,28 @@ public class Lexer {
           return new Word(Tag.ERROR, "Invalid character '&'");
     }
 
+    // Outros caracteres
+    switch (ch) {
+      case ';':
+        ch = ' ';
+        return new Token(Tag.SEMICOLON);
+      case '{':
+        ch = ' ';
+        return new Token(Tag.OPEN_BRACKET);
+      case '}':
+        ch = ' ';
+        return new Token(Tag.CLOSE_BRACKET);
+      case ',':
+        ch = ' ';
+        return new Token(Tag.COMMA);
+      case '(':
+        ch = ' ';
+        return new Token(Tag.OPEN_PAR);
+      case ')':
+        ch = ' ';
+        return new Token(Tag.CLOSE_PAR);
+    }
+
     ch = ' ';
     return null;
   }
