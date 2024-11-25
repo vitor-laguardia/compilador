@@ -156,13 +156,12 @@ public class Lexer {
       }
       if (ch == '*'){
         readch();
-        boolean incomment = true;
-        while (incomment){
-          if (ch == '\n')
-            Position.line++;
+        while (true){
           if (ch == '*')
             if (readch('/'))
-              incomment = false;
+              break;
+          if (ch == '\n')
+            Position.line++;
           if (ch == (char)-1)
             return new Word(Tag.ERROR, "Comment not closed");
           else
