@@ -9,7 +9,8 @@ public class Lexer {
   private FileReader file;
   private Hashtable<String, Word> words = new Hashtable<String, Word>();
 
-  public Lexer(String fileName) throws FileNotFoundException {
+  public Lexer(
+      String fileName) throws FileNotFoundException {
     try {
       file = new FileReader(fileName);
     } catch (FileNotFoundException e) {
@@ -53,8 +54,7 @@ public class Lexer {
 
   public Token scan() throws IOException {
     // Desconsidera delimitadores na entrada
-    while (true) {
-      readch();
+    for (;; readch()) {
       if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b')
         continue;
       else if (ch == '\n')
@@ -71,7 +71,6 @@ public class Lexer {
         sb.append(ch);
         readch();
       } while (Character.isLetterOrDigit(ch) || ch == '_');
-
       String s = sb.toString();
       Word w = (Word) words.get(s);
       if (w != null)
@@ -84,15 +83,15 @@ public class Lexer {
 
     // Números
     if (Character.isDigit(ch)) {
-      int value = 0;
+      int intValue = 0;
 
       do {
-        value = 10 * value + Character.digit(ch, 10);
+        intValue = 10 * intValue + Character.digit(ch, 10);
         readch();
       } while (Character.isDigit(ch));
 
       if (ch != '.') {
-        return new IntegerConst(value);
+        return new IntegerConst(intValue);
       }
 
       readch();
@@ -100,19 +99,19 @@ public class Lexer {
         return new Word(Tag.ERROR, "Invalid float number");
       }
 
-      float x = value;
-      float d = 10;
+      float floatValue = intValue;
+      float divider = 10;
 
       for (;;) {
-        x = x + Character.digit(ch, 10) / d;
-        d = d * 10;
+        floatValue = floatValue + Character.digit(ch, 10) / divider;
+        divider = divider * 10;
 
         readch();
         if (!Character.isDigit(ch))
           break;
       }
 
-      return new FloatConst(x);
+      return new FloatConst(floatValue);
     }
 
     // Operadores
@@ -134,50 +133,75 @@ public class Lexer {
           return new Token(Tag.NOT_EQ);
         return new Token(Tag.NOT);
       case '+':
+        ch = ' ';
         return new Token(Tag.PLUS);
       case '-':
+        ch = ' ';
         return new Token(Tag.MINUS);
       case '|':
         if (readch('|'))
           return new Token(Tag.OR);
         else
           return new Word(Tag.ERROR, "Invalid character '|'");
-
       case '*':
+        ch = ' ';
         return new Token(Tag.MULT);
       case '/':
-      //comment
-      readch();
-      if (ch =='/'){
-        while (ch != '\n' && ch != (char)-1) {
-          readch();
-        }
-        return scan();
-      }
-      if (ch == '*'){
+        ch = ' ';
+        //comment
         readch();
-        while (true){
-          if (ch == '*')
-            if (readch('/'))
-              break;
-          if (ch == '\n')
-            Position.line++;
-          if (ch == (char)-1)
-            return new Word(Tag.ERROR, "Comment not closed");
-          else
+        if (ch =='/'){
+          while (ch != '\n' && ch != (char)-1) {
             readch();
+          }
+          return scan();
         }
-        return scan();    
-      }  
+        if (ch == '*'){
+          readch();
+          while (true){
+            if (ch == '*')
+              if (readch('/'))
+                break;
+            if (ch == '\n')
+              Position.line++;
+            if (ch == (char)-1)
+              return new Word(Tag.ERROR, "Comment not closed");
+            else
+              readch();
+          }
+          return scan();    
+        }  
         return new Token(Tag.DIV);
       case '%':
+        ch = ' ';
         return new Token(Tag.MOD);
       case '&':
         if (readch('&'))
           return new Token(Tag.AND);
         else
           return new Word(Tag.ERROR, "Invalid character '&'");
+    }
 
+    // Outros caracteres
+    switch (ch) {
+      case ';':
+        ch = ' ';
+        return new Token(Tag.SEMICOLON);
+      case '{':
+        ch = ' ';
+        return new Token(Tag.OPEN_BRACKET);
+      case '}':
+        ch = ' ';
+        return new Token(Tag.CLOSE_BRACKET);
+      case ',':
+        ch = ' ';
+        return new Token(Tag.COMMA);
+      case '(':
+        ch = ' ';
+        return new Token(Tag.OPEN_PAR);
+      case ')':
+        ch = ' ';
+        return new Token(Tag.CLOSE_PAR);
     }
 
     ch = ' ';
