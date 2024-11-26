@@ -13,9 +13,8 @@ public class Compiler {
 
       do {
         t = lexer.scan();
-        if (t != null)
-          System.out.println(t.toString() + " " + t.TAG);
-      } while (t != null);
+        System.out.println(t.toString() + " " + t.TAG);
+      } while (t.TAG != Tag.EOF);
 
     } catch (IOException e) {
       // TODO Auto-generated catch block
