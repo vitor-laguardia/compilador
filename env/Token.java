@@ -1,7 +1,9 @@
+package env;
+
 public class Token {
   public final Tag TAG;
 
-  Token(Tag tag) {
+  public Token(Tag tag) {
     TAG = tag;
   }
 

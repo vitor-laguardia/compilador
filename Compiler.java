@@ -1,4 +1,7 @@
 import java.io.IOException;
+import env.Tag;
+import env.Token;
+import lexic.Lexer;
 
 public class Compiler {
   public static void main(String[] args) {

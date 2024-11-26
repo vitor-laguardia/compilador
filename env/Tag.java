@@ -1,4 +1,6 @@
-enum Tag {
+package env;
+
+public enum Tag {
   // Palavras Reservadas
   START,
   EXIT,

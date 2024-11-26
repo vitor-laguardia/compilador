@@ -2,7 +2,7 @@
 
 ## Etapa 1 - Analisador Léxico e Tabela de Símbolos
 
-- [ ] Organizar estrutura de diretórios (Filipe)
+- [x] Organizar estrutura de diretórios (Filipe)
 - [ ] Criar classe tabela de símbolos e inicialiar os tokens restantes.
 - [x] Identificar comentários. (Matheus)
 - [ ] Identificar string.

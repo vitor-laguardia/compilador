@@ -1,7 +1,9 @@
-class Word extends Token {
+package env;
+
+public class Word extends Token {
   private String lexeme = "";
 
-  Word(Tag tag, String lexeme) {
+  public Word(Tag tag, String lexeme) {
     super(tag);
     this.lexeme = lexeme;
   }
