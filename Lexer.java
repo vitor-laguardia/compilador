@@ -168,7 +168,7 @@ public class Lexer {
                 break;
             if (ch == '\n')
               Position.line++;
-            if (ch == (char)-1)
+            if (ch =='#')
               return new Word(Tag.ERROR, "Comment not closed");
             else
               readch();
