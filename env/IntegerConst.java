@@ -1,3 +1,5 @@
+package env;
+
 public class IntegerConst extends Token {
   public final int value;
 

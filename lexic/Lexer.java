@@ -1,8 +1,11 @@
+package lexic;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
+
+import env.*;
 
 public class Lexer {
   private char ch = ' ';
@@ -152,29 +155,29 @@ public class Lexer {
         return new Token(Tag.MULT);
       case '/':
         ch = ' ';
-        //comment
+        // comment
         readch();
-        if (ch =='/'){
-          while (ch != '\n' && ch != (char)-1) {
+        if (ch == '/') {
+          while (ch != '\n' && ch != (char) -1) {
             readch();
           }
           return scan();
         }
-        if (ch == '*'){
+        if (ch == '*') {
           readch();
-          while (true){
+          while (true) {
             if (ch == '*')
               if (readch('/'))
                 break;
             if (ch == '\n')
               Position.line++;
-            if (ch =='#')
+            if (ch == '#')
               return new Word(Tag.ERROR, "Comment not closed");
             else
               readch();
           }
-          return scan();    
-        }  
+          return scan();
+        }
         return new Token(Tag.DIV);
       case '%':
         ch = ' ';
