@@ -2,12 +2,10 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Hashtable;
 
 public class Lexer {
   private char ch = ' ';
   private FileReader file;
-  private Hashtable<String, Word> words = new Hashtable<String, Word>();
 
   public Lexer(
       String fileName) throws FileNotFoundException {
@@ -18,26 +16,7 @@ public class Lexer {
       throw e;
     }
 
-    initializeReservedWordsInSymbolTable();
-  }
-
-  private void reserve(Word w) {
-    words.put(w.getLexeme(), w);
-  }
-
-  private void initializeReservedWordsInSymbolTable() {
-    reserve(new Word(Tag.START, "start"));
-    reserve(new Word(Tag.EXIT, "exit"));
-    reserve(new Word(Tag.INT, "int"));
-    reserve(new Word(Tag.FLOAT, "float"));
-    reserve(new Word(Tag.STRING, "string"));
-    reserve(new Word(Tag.IF, "if"));
-    reserve(new Word(Tag.THEN, "then"));
-    reserve(new Word(Tag.END, "end"));
-    reserve(new Word(Tag.DO, "do"));
-    reserve(new Word(Tag.WHILE, "while"));
-    reserve(new Word(Tag.SCAN, "scan"));
-    reserve(new Word(Tag.PRINT, "print"));
+    SymbolTable.initializeTable();
   }
 
   private void readch() throws IOException {
@@ -76,12 +55,12 @@ public class Lexer {
         readch();
       } while (Character.isLetterOrDigit(ch) || ch == '_');
       String s = sb.toString();
-      Word w = (Word) words.get(s);
+      Word w = (Word) SymbolTable.getWord(s);
       if (w != null)
         return w; // palavra já existe na HashTable
 
       w = new Word(Tag.IDENTIFIER, s);
-      words.put(s, w);
+      SymbolTable.addWord(w);
       return w;
     }
 
@@ -151,30 +130,28 @@ public class Lexer {
         ch = ' ';
         return new Token(Tag.MULT);
       case '/':
-        ch = ' ';
-        //comment
-        readch();
-        if (ch =='/'){
-          while (ch != '\n' && ch != (char)-1) {
+        // comment
+        if (readch('/')) {
+          while (ch != '\n' && ch != '#') {
             readch();
           }
           return scan();
-        }
-        if (ch == '*'){
+        } else if (ch == '*') {
           readch();
-          while (true){
-            if (ch == '*')
+          while (true) {
+            if (ch == '*') {
               if (readch('/'))
                 break;
+            }
             if (ch == '\n')
               Position.line++;
-            if (ch =='#')
+            if (ch == '#')
               return new Word(Tag.ERROR, "Comment not closed");
             else
               readch();
           }
-          return scan();    
-        }  
+          return scan();
+        }
         return new Token(Tag.DIV);
       case '%':
         ch = ' ';
