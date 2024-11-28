@@ -13,7 +13,11 @@ public class Compiler {
 
       do {
         t = lexer.scan();
-        System.out.println(t.toString() + " " + t.TAG);
+        if (t.TAG == Tag.ERROR){
+          System.out.println(t.toString() + " " + t.TAG + " in line "+ Position.line);
+        }else{
+          System.out.println(t.toString() + " " + t.TAG);
+        }
       } while (t.TAG != Tag.EOF);
 
     } catch (IOException e) {
