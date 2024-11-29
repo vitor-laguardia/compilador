@@ -13,9 +13,12 @@ public class Compiler {
 
       do {
         t = lexer.scan();
-        System.out.println(t.toString() + " " + t.TAG);
+        System.out.println(t.toString());
       } while (t.TAG != Tag.EOF);
 
+      System.out.println();
+      System.out.println("---------- Symbol Table -----------");
+      SymbolTable.printTable();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

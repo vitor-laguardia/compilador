@@ -7,7 +7,7 @@ public class StringConst extends Token {
   }
 
   public String toString() {
-    return "" + content;
+    return "Token: " + super.TAG + " | Content: " + content;
   }
 
 }

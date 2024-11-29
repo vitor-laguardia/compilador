@@ -47,7 +47,7 @@ public class Lexer {
     }
 
     // Identificadores
-    if (Character.isLetter(ch)) {
+    if (Character.isLetter(ch) || ch == '_') {
       StringBuffer sb = new StringBuffer();
 
       do {
@@ -79,7 +79,7 @@ public class Lexer {
 
       readch();
       if (!Character.isDigit(ch)) {
-        return new Word(Tag.ERROR, "Invalid float number");
+        return new Error("Invalid float number", Position.line);
       }
 
       float floatValue = intValue;
@@ -125,7 +125,7 @@ public class Lexer {
         if (readch('|'))
           return new Token(Tag.OR);
         else
-          return new Word(Tag.ERROR, "Invalid character '|'");
+          return new Error("Invalid character '|'", Position.line);
       case '*':
         ch = ' ';
         return new Token(Tag.MULT);
@@ -146,7 +146,7 @@ public class Lexer {
             if (ch == '\n')
               Position.line++;
             if (ch == '#')
-              return new Word(Tag.ERROR, "Comment not closed");
+              return new Error("Comment not closed", Position.line);
             else
               readch();
           }
@@ -160,7 +160,7 @@ public class Lexer {
         if (readch('&'))
           return new Token(Tag.AND);
         else
-          return new Word(Tag.ERROR, "Invalid character '&'");
+          return new Error("Invalid character '&'", Position.line);
     }
 
     // String const
@@ -179,7 +179,7 @@ public class Lexer {
         return new StringConst(s);
       }
 
-      return new Word(Tag.ERROR, "Erro: quebra de linha inesperada");
+      return new Error("Unexpected line break", Position.line);
     }
 
     // Outros caracteres
@@ -202,7 +202,7 @@ public class Lexer {
       return new Token(Tag.EOF);
     }
 
-    Token t = new Word(Tag.ERROR, "" + ch);
+    Token t = new Error("Unexpected token: '" + ch + "'", Position.line);
     ch = ' ';
     return t;
   }
