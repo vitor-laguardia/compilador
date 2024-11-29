@@ -7,6 +7,6 @@ public class FloatConst extends Token {
   }
 
   public String toString() {
-    return "" + value;
+    return "Token: " + super.TAG + " | Value: " + value;
   }
 }

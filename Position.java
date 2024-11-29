@@ -1,4 +1,4 @@
 
 public class Position {
-  public static int line = 0;
+  public static int line = 1;
 }
