@@ -1,4 +1,5 @@
-enum Tag {
+package Lexical;
+public enum Tag {
   // Palavras Reservadas
   START,
   EXIT,
