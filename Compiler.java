@@ -22,10 +22,26 @@ public class Compiler {
           System.out.println(t.toString() + " " + t.TAG);
         }
       } while (t.TAG != Tag.EOF);
+      
+      try {
+      //initiate syntatic
+      Parser parser = new Parser(lexer);
 
+      do{
+        parser.begin();
+      } while(parser.getCurrentToken().TAG!=Tag.EOF); //le o proximo token ate chegar na Tag de EOF
+        System.out.println("Analise sintática concluída.");
+
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
+   
+
   }
 }
