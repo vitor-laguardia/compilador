@@ -7,6 +7,6 @@ public class Token {
   }
 
   public String toString() {
-    return "" + TAG;
+    return "Token: " + TAG;
   }
 }

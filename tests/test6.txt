@@ -1,1 +1,18 @@
-// Mostre mais um teste para o compilador
+start
+   int par, impar;
+
+   par = 20;
+   impar = 5;
+
+   int restoPar = par % 2;
+   int restoImpar = impar % 2;
+
+   if(restoPar == 0) then
+      print({Numero par!});
+   end
+  
+    if(restoImpar != 0) then
+      print({Numero impar!});
+    end
+    
+ exit

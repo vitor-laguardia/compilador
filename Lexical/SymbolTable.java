@@ -34,7 +34,8 @@ public class SymbolTable {
 
   public static void printTable() {
     for (Map.Entry<String, Word> entry : table.entrySet()) {
-      System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue().toString());
+      System.out.println("KEY: " + entry.getKey() + " | VALUE: (" +
+          entry.getValue().toString() + ")");
     }
   }
 }

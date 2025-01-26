@@ -26,6 +26,10 @@ public class Parser {
         return symbolTable;
     }
 
+    public void ErroSintatico() throws Exception{
+        throw new Compiler
+    } 
+
     private void eat(Tag tag) throws Exception{
         while (currentToken != null && currentToken.TAG != Tag.EOF) {
             // logica de erro depois
