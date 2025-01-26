@@ -35,7 +35,6 @@ public class Parser {
 
     private void eat(Tag tag) throws Exception{
         if (currentToken != null && currentToken.TAG == tag) {
-            // logica de erro aqui depois
             System.out.println("Comeu " + tag);
             advance();
         } else {
@@ -136,17 +135,22 @@ public class Parser {
         switch (this.currentToken.TAG) {
             case IDENTIFIER:
                 assignstmt();
-                eat(Tag.SEMICOLON);            
+                eat(Tag.SEMICOLON);     
+                break;       
             case IF:
                 ifstmt();
+                break;
             case DO:
                 whilestmt();
+                break;
             case SCAN:
                 readstmt();
                 eat(Tag.SEMICOLON);
+                break;
             case PRINT:
                 writestmt();    
                 eat(Tag.SEMICOLON);
+                break;
             default:
                 ErroSintatico("Erro no Stmt");
         }
@@ -224,9 +228,9 @@ public class Parser {
     public void readstmt() throws Exception{
         try{
             eat(Tag.SCAN);
-            eat(Tag.OPEN_BRACKET);
+            eat(Tag.OPEN_PAR);
             identifier();
-            eat(Tag.CLOSE_BRACKET);
+            eat(Tag.CLOSE_PAR);
         }catch(Exception e){
             ErroSintatico("Erro em read-stmt");
         }
@@ -235,9 +239,9 @@ public class Parser {
     public void writestmt() throws Exception{
         try{
             eat(Tag.PRINT);
-            eat(Tag.OPEN_BRACKET);
+            eat(Tag.OPEN_PAR);
             writable();
-            eat(Tag.CLOSE_BRACKET);
+            eat(Tag.CLOSE_PAR);
         }catch(Exception e){
             ErroSintatico("Erro em write-stmt");
         }
@@ -378,8 +382,9 @@ public class Parser {
                 constant();
                 break;
             case OPEN_PAR:
-                factor();
+                eat(Tag.OPEN_PAR);
                 expression();
+                eat(Tag.CLOSE_PAR);
                 break;
             default:
                 ErroSintatico("Erro no factor");
