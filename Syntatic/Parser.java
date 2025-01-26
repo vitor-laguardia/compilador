@@ -17,6 +17,7 @@ public class Parser {
     }
 
     private void advance() throws Exception {
+        
        this.currentToken = this.lexer.scan();
     }
 
@@ -28,8 +29,10 @@ public class Parser {
     private void eat(Tag tag) throws Exception{
         while (currentToken != null && currentToken.TAG != Tag.EOF) {
             // logica de erro depois
+            System.out.println("Comeu " + tag);
             advance();
         }
+        System.out.println("Comeu " + tag);
 
     }
 
@@ -38,10 +41,10 @@ public class Parser {
     //Construções
     //⟨begin⟩ ::= ⟨program⟩#
     public void begin() throws Exception{
-        System.out.println("-------------------------------------------- PROGRAMA INICIADO");
+        System.out.println("------ PROGRAMA INICIADO");
         program();
         eat(Tag.EOF);
-        System.out.println("-------------------------------------------- PROGRAMA FINALIZADO");
+        System.out.println("------ PROGRAMA FINALIZADO");
     }
     //⟨program⟩ ::= start [decl-list] ⟨stmt-list⟩ exit
     public void program() throws Exception{

@@ -19,7 +19,8 @@ public class Compiler {
         if (t.TAG == Tag.ERROR){
           System.out.println(t.toString() + " " + t.TAG + " in line "+ Position.line);
         }else{
-          System.out.println(t.toString() + " " + t.TAG);
+          //comentarios debug lexico
+          //System.out.println(t.toString() + " " + t.TAG);
         }
       } while (t.TAG != Tag.EOF);
       
