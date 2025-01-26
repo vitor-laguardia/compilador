@@ -119,7 +119,7 @@ public class Parser {
                 case DO:
                 case SCAN:
                 case PRINT:
-                    stmtlist();;
+                    stmtlist();
                     break;
                 default:
                     break;
@@ -135,9 +135,9 @@ public class Parser {
                 assignstmt();
                 eat(Tag.SEMICOLON);            
             case IF:
-                ifstmt();;
+                ifstmt();
             case DO:
-                whilestmt();;
+                whilestmt();
             case SCAN:
                 readstmt();
                 eat(Tag.SEMICOLON);
@@ -360,7 +360,7 @@ public class Parser {
                 factor();
                 break;
             default:
-                ErroSintatico("Erro no factor a");;
+                ErroSintatico("Erro no factor a");
         }
     }
     //⟨factor⟩ ::= identifier | constant | ( ⟨expression⟩ )
@@ -379,7 +379,7 @@ public class Parser {
                 expression();
                 break;
             default:
-                ErroSintatico("Erro no factor");;
+                ErroSintatico("Erro no factor");
         }
     }
 
@@ -453,7 +453,7 @@ public class Parser {
                 eat(Tag.FLOAT_CONST);
                 break;
             case STRING_CONST:
-                literal();;
+                literal();
                 break;
             default:
                 ErroSintatico("Erro em constant");
