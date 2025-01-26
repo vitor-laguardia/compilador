@@ -1,3 +1,4 @@
+package Lexical;
 public class Error extends Token {
   String message;
   int line;

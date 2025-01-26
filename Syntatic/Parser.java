@@ -27,7 +27,7 @@ public class Parser {
     }
 
     public void ErroSintatico() throws Exception{
-        throw new Compiler
+        
     } 
 
     private void eat(Tag tag) throws Exception{

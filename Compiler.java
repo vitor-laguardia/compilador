@@ -17,7 +17,8 @@ public class Compiler {
 
       do {
         t = lexer.scan();
-        System.out.println(t.toString());
+        //removendo print debug lexico
+        //System.out.println(t.toString());
         if (t.TAG == Tag.ERROR){
           erro = true;
         }
