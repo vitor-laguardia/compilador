@@ -11,35 +11,23 @@ public class Compiler {
       return;
     }
 
+    Lexer lexer;
+    Parser parser;
+
     try {
-      Lexer lexer = new Lexer(args[0]);
-      Token t = null;
-
-      do {
-        t = lexer.scan();
-        //removendo print debug lexico
-        //System.out.println(t.toString());
-        if (t.TAG == Tag.ERROR){
-          erro = true;
-        }
-      } while (t.TAG != Tag.EOF);
-      System.out.println();
-      System.out.println("---------- Symbol Table -----------");
-      SymbolTable.printTable();
-
-      try {
-        //initiate syntatic
-        Parser parser = new Parser(lexer);
-  
-        do{
-          //parser.begin();
-        } while(parser.getCurrentToken().TAG!=Tag.EOF); //le o proximo token ate chegar na Tag de EOF
-          System.out.println("Analise sintática concluída.");
-  
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
+      lexer = new Lexer(args[0]);
+      try{
+          parser = new Parser(lexer);
+          do {
+            parser.begin();
+          } while (parser.getCurrentToken().TAG != Tag.EOF);
+        }catch(Exception e){
           e.printStackTrace();
         }
+        
+      //System.out.println();
+      //System.out.println("---------- Symbol Table -----------");
+      //SymbolTable.printTable();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

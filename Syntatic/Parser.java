@@ -10,7 +10,8 @@ public class Parser {
 
     public Parser(Lexer lexer) throws Exception {
         this.lexer = lexer;
-        advance();
+        currentToken =lexer.scan();
+        //advance();
     }       
 
     public Token getCurrentToken() {
@@ -18,7 +19,6 @@ public class Parser {
     }
 
     private void advance() throws Exception {
-        
        this.currentToken = this.lexer.scan();
     }
 
@@ -30,15 +30,17 @@ public class Parser {
     public void ErroSintatico(String message) throws Exception{
         Lexical.Error error = new Lexical.Error(message, Position.line);
         System.out.println(error);
+        throw new Exception();
         } 
 
     private void eat(Tag tag) throws Exception{
-        while (currentToken != null && currentToken.TAG != Tag.EOF) {
+        if (currentToken != null && currentToken.TAG == tag) {
             // logica de erro aqui depois
             System.out.println("Comeu " + tag);
             advance();
+        } else {
+            throw new Exception("Erro sintático: esperava " + tag + ", mas encontrou " + currentToken.TAG);
         }
-        System.out.println("Comeu " + tag);
 
     }
 
@@ -47,6 +49,7 @@ public class Parser {
     //Construções
     //⟨begin⟩ ::= ⟨program⟩#
     public void begin() throws Exception{
+
         System.out.println("------ PROGRAMA INICIADO");
         program();
         eat(Tag.EOF);
@@ -54,9 +57,6 @@ public class Parser {
     }
     //⟨program⟩ ::= start [decl-list] ⟨stmt-list⟩ exit
     public void program() throws Exception{
-        //exemplo chamada de erro
-        ErroSintatico("Errou chefe");
-
         eat(Tag.START);
         decllist();
         stmtlist();
@@ -100,10 +100,13 @@ public class Parser {
         switch (this.currentToken.TAG) {
             case INT:
                 eat(Tag.INT);
+                break;
             case FLOAT:
                 eat(Tag.FLOAT);
+                break;
             case STRING:
-                eat(Tag.STRING);        
+                eat(Tag.STRING);   
+                break;     
             default:
                 ErroSintatico("Erro no Type");
         }
@@ -382,7 +385,6 @@ public class Parser {
                 ErroSintatico("Erro no factor");
         }
     }
-
     //relop           ::= "=="  |  ">"  |  ">="  |  "<"  |  "<="  | "!="
     public void relop() throws Exception{
         switch (this.currentToken.TAG) {
