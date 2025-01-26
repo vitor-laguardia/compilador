@@ -10,9 +10,8 @@ public class Parser {
 
     public Parser(Lexer lexer) throws Exception {
         this.lexer = lexer;
-        currentToken =lexer.scan();
-        //advance();
-    }       
+        currentToken = lexer.scan();
+        }       
 
     public Token getCurrentToken() {
         return currentToken;
@@ -38,7 +37,7 @@ public class Parser {
             System.out.println("Comeu " + tag);
             advance();
         } else {
-            throw new Exception("Erro sintático: esperava " + tag + ", mas encontrou " + currentToken.TAG);
+            throw new Exception("Erro sintático: esperava " + tag + ", mas encontrou " + currentToken.TAG + "LINHA: " + Position.line);
         }
 
     }
@@ -63,11 +62,13 @@ public class Parser {
     }
     //⟨decl-list⟩ ::= ⟨decl⟩ {decl}
     public void decllist() throws Exception{
-        try{
-            decl();
-            decllist(); 
-        }catch(Exception e){//-----------ver
-            return;
+        if(currentToken!=null && ((currentToken.TAG==Tag.INT)||(currentToken.TAG==Tag.FLOAT)||(currentToken.TAG==Tag.STRING))){
+            try{
+                decl();
+                decllist(); 
+            }catch(Exception e){//-----------ver
+                return;
+            }
         }
     }
     //⟨decl⟩ ::= ⟨type⟩ ⟨ident-list⟩ ;
@@ -78,7 +79,6 @@ public class Parser {
             eat(Tag.SEMICOLON);
         }catch(Exception e){
             ErroSintatico("Erro na decl");
-            return;
         }
         
 
@@ -115,6 +115,7 @@ public class Parser {
     public void stmtlist() throws Exception{
         try{
             stmt();
+            
             switch (this.currentToken.TAG) {
                 case IDENTIFIER:
                 case IF:
@@ -124,7 +125,7 @@ public class Parser {
                     stmtlist();
                     break;
                 default:
-                    break;
+                    return;
             }
         }catch(Exception e){
             return;

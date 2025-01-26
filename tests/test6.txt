@@ -1,11 +1,15 @@
 start
    int par, impar;
 
-   par = 20;
-   impar = 5;
+   int restoPar;
+   int restoImpar;
 
-   int restoPar = par % 2;
-   int restoImpar = impar % 2;
+   par = 20;
+   impar = 5;   
+
+   restoPar = par % 2;
+   restoImpar = impar % 2;
+
 
    if(restoPar == 0) then
       print({Numero par!});
