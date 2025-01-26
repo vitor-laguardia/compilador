@@ -113,7 +113,17 @@ public class Parser {
     public void stmtlist() throws Exception{
         try{
             stmt();
-            stmtlist();
+            switch (this.currentToken.TAG) {
+                case IDENTIFIER:
+                case IF:
+                case DO:
+                case SCAN:
+                case PRINT:
+                    stmtlist();;
+                    break;
+                default:
+                    break;
+            }
         }catch(Exception e){
             return;
         }
@@ -121,12 +131,12 @@ public class Parser {
     //⟨stmt⟩ ::= ⟨assign-stmt⟩ ; | ⟨if-stmt⟩ | ⟨while-stmt⟩ | ⟨read-stmt⟩ ; | ⟨write-stmt⟩ ;
     public void stmt() throws Exception{
         switch (this.currentToken.TAG) {
-            case ASSIGN:
+            case IDENTIFIER:
                 assignstmt();
                 eat(Tag.SEMICOLON);            
             case IF:
                 ifstmt();;
-            case WHILE:
+            case DO:
                 whilestmt();;
             case SCAN:
                 readstmt();
@@ -144,7 +154,7 @@ public class Parser {
     public void assignstmt() throws Exception{
         try{
             identifier();
-            eat(Tag.EQ);
+            eat(Tag.ASSIGN);
             simpleexpr();
         }catch(Exception e){
             ErroSintatico("Erro no assign");
@@ -230,69 +240,232 @@ public class Parser {
         }
     }
     //⟨writable⟩ ::= ⟨simple-expr⟩ | literal
+    //simpleexpr e literal tem como first TAG STRING_CONST
+    
     public void writable() throws Exception{
+        switch (this.currentToken.TAG) {
+            case IDENTIFIER:
+            //case STRING_CONST:
+            case INT_CONST:
+            case FLOAT_CONST:
+            case OPEN_BRACKET:
+            case NOT:
+            case MINUS:
+                simpleexpr();
+                break;    
+            //STRING_CONST é o literal    
+            case STRING_CONST:
+                literal();
+                break;
+            default:
+                ErroSintatico("Erro no writable");
+        }
+        return;
+
 
     }
     //⟨expression⟩ ::= ⟨simple-expr⟩ ⟨expression-tail⟩
     public void expression() throws Exception{
-
+        try{
+            simpleexpr();
+            expressiontail();
+        }catch(Exception e){
+            ErroSintatico("Erro em expression");
+        }
     }
     //⟨expression-tail⟩ ::= relop ⟨simple-expr⟩ | λ
+    //lambda = follow? ou return vazio?
     public void expressiontail() throws Exception{
+        switch (this.currentToken.TAG) {
+            case EQ:
+            case GREATER:
+            case GREATER_EQ:
+            case LESS:
+            case LESS_EQ:
+            case NOT_EQ:
+                relop();
+                simpleexpr();
+                break;
+            default:
+                break;
+        }
 
     }
     //⟨simple-expr⟩ ::= ⟨term⟩ ⟨simple-expr-tail⟩
     public void simpleexpr() throws Exception{
+        try{
+            term();
+            simpleexprtail();
+        }catch(Exception e){
+            ErroSintatico("Erro em simple-expr");
+        }
 
     }
     //⟨simple-expr-tail⟩ ::= addop ⟨term⟩ ⟨simple-expr-tail⟩ | λ
+    //"+"  |  "-"  | "||"
     public void simpleexprtail() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case PLUS:
+            case MINUS:
+            case OR:
+                addop();
+                term();
+                simpleexprtail();
+                break;
+            default:
+                break;
+        }
     }
     //⟨term⟩ ::= ⟨factor-a⟩⟨term-tail⟩
     public void term() throws Exception{
-
+        try{
+            factora();
+            termtail();
+        }catch(Exception e){
+            ErroSintatico("Erro em term");
+        }
     }
     //⟨term-tail⟩ ::= mulop ⟨factor-a⟩⟨term-tail⟩ | λ
     public void termtail() throws Exception{
+        switch (this.currentToken.TAG) {
+            case MULT:
+            case DIV:
+            case MOD:
+            case AND:
+                mulop();
+                term();
+                simpleexprtail();
+                break;
+            default:
+                break;
+        }
 
     }
     //⟨factor-a⟩ ::= ⟨factor⟩ | ! ⟨factor⟩ | - ⟨factor⟩
     public void factora() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case IDENTIFIER:
+            case INT_CONST:
+            case FLOAT_CONST:
+            case STRING_CONST:
+            case OPEN_PAR:
+                factor();
+                break;
+            case NOT:
+                eat(Tag.NOT);
+                factor();
+                break;
+            case MINUS:
+                eat(Tag.MINUS);
+                factor();
+                break;
+            default:
+                ErroSintatico("Erro no factor a");;
+        }
     }
     //⟨factor⟩ ::= identifier | constant | ( ⟨expression⟩ )
     public void factor() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case IDENTIFIER:
+                identifier();
+                break;
+            case INT_CONST:
+            case FLOAT_CONST:
+            case STRING_CONST:
+                constant();
+                break;
+            case OPEN_PAR:
+                factor();
+                expression();
+                break;
+            default:
+                ErroSintatico("Erro no factor");;
+        }
     }
 
     //relop           ::= "=="  |  ">"  |  ">="  |  "<"  |  "<="  | "!="
     public void relop() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case EQ:
+                eat(Tag.EQ);
+                break;
+            case GREATER:
+                eat(Tag.GREATER);
+                break;
+            case GREATER_EQ:
+                eat(Tag.GREATER_EQ);
+                break;
+            case LESS:
+                eat(Tag.LESS);
+                break;
+            case LESS_EQ:
+                eat(Tag.LESS_EQ);
+                break;
+            case NOT_EQ:
+                eat(Tag.NOT_EQ);
+                break;
+            default:
+                ErroSintatico("Erro em Relop");
+        }
     }
     //addop           ::= "+"  |  "-"  | "||"
     public void addop() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case PLUS:
+                eat(Tag.PLUS);
+                break;
+            case MINUS:
+                eat(Tag.MINUS);
+                break;
+            case OR:
+                eat(Tag.OR);
+                break;
+            default:
+                ErroSintatico("Erro em addop");
+        }
     }
     //mulop           ::=  "*"  | "/"   | "%" | "&&"
     public void mulop() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case MULT:
+                eat(Tag.MULT);
+                break;
+            case DIV:
+                eat(Tag.DIV);
+                break;
+            case MOD:
+                eat(Tag.MOD);
+                break;
+            case AND:
+                eat(Tag.AND);
+                break;
+            default:
+                ErroSintatico("Erro em addop");
+        }
     }
     //constant        ::= integer_const | float_const | literal
     public void constant() throws Exception{
-
-    }
-    //integer_const   ::= digit+
-    public void integer_const() throws Exception{
-
-    }
-    //float_const     ::= digit+ "." digit+
-    public void float_const() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case INT_CONST:
+                eat(Tag.INT_CONST);
+                break;
+            case FLOAT_CONST:
+                eat(Tag.FLOAT_CONST);
+                break;
+            case STRING_CONST:
+                literal();;
+                break;
+            default:
+                ErroSintatico("Erro em constant");
+        }
     }
     //literal         ::= "{" caractere* "}"
     public void literal() throws Exception{
-
+        try{
+            eat(Tag.STRING_CONST);
+        }catch(Exception e){
+            ErroSintatico("Erro em literal");
+        }
     }
     //identifier      ::= (letter | _ )  (letter | digit )*
     public void identifier() throws Exception{
@@ -311,5 +484,13 @@ public class Parser {
 
     }
 
+    //integer_const   ::= digit+
+    public void integer_const() throws Exception{
+
+    }
+    //float_const     ::= digit+ "." digit+
+    public void float_const() throws Exception{
+
+    }
 
 }
