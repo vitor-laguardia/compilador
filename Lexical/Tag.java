@@ -1,6 +1,7 @@
 package Lexical;
 public enum Tag {
   // Palavras Reservadas
+  PROGRAM,
   START,
   EXIT,
   INT,

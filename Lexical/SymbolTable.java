@@ -6,6 +6,7 @@ public class SymbolTable {
   private static final Hashtable<String, Word> table = new Hashtable<String, Word>();
 
   public static void initializeTable() {
+    addWord(new Word(Tag.PROGRAM, "program"));
     addWord(new Word(Tag.START, "start"));
     addWord(new Word(Tag.EXIT, "exit"));
     addWord(new Word(Tag.INT, "int"));

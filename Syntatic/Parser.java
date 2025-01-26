@@ -57,13 +57,31 @@ public class Parser {
         //exemplo chamada de erro
         ErroSintatico("Errou chefe");
 
+        eat(Tag.START);
+        decllist();
+        stmtlist();
+        eat(Tag.EXIT);
     }
     //⟨decl-list⟩ ::= ⟨decl⟩ {decl}
     public void decllist() throws Exception{
-
+        try{
+            decl();
+            decllist(); 
+        }catch(Exception e){//-----------ver
+            return;
+        }
     }
     //⟨decl⟩ ::= ⟨type⟩ ⟨ident-list⟩ ;
     public void decl() throws Exception{
+        try{
+            type();
+            identlist();
+            eat(Tag.SEMICOLON);
+        }catch(Exception e){
+            ErroSintatico("Erro na decl");
+            return;
+        }
+        
 
     }
     //⟨ident-list⟩ ::= identifier {, identifier}
