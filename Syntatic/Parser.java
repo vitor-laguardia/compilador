@@ -1,6 +1,7 @@
 package Syntatic;
 import Lexical.*;
 
+
 public class Parser {
 
     private Lexer lexer;
@@ -26,13 +27,14 @@ public class Parser {
         return symbolTable;
     }
 
-    public void ErroSintatico() throws Exception{
-        
-    } 
+    public void ErroSintatico(String message) throws Exception{
+        Lexical.Error error = new Lexical.Error(message, Position.line);
+        System.out.println(error);
+        } 
 
     private void eat(Tag tag) throws Exception{
         while (currentToken != null && currentToken.TAG != Tag.EOF) {
-            // logica de erro depois
+            // logica de erro aqui depois
             System.out.println("Comeu " + tag);
             advance();
         }
@@ -52,6 +54,8 @@ public class Parser {
     }
     //⟨program⟩ ::= start [decl-list] ⟨stmt-list⟩ exit
     public void program() throws Exception{
+        //exemplo chamada de erro
+        ErroSintatico("Errou chefe");
 
     }
     //⟨decl-list⟩ ::= ⟨decl⟩ {decl}
