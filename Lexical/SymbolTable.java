@@ -19,6 +19,7 @@ public class SymbolTable {
     addWord(new Word(Tag.WHILE, "while"));
     addWord(new Word(Tag.SCAN, "scan"));
     addWord(new Word(Tag.PRINT, "print"));
+    addWord(new Word(Tag.ELSE, "else"));
   }
 
   public static void addWord(Word w) {

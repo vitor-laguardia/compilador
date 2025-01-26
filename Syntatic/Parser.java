@@ -86,51 +86,148 @@ public class Parser {
     }
     //⟨ident-list⟩ ::= identifier {, identifier}
     public void identlist() throws Exception{
-
+        try{
+            identifier();
+            eat(Tag.COMMA);
+            identlist();
+        }catch(Exception e){
+            return;    
+        }
     }
     //⟨type⟩ ::= int | float | string
+    //conferir logica
     public void type() throws Exception{
-
+        switch (this.currentToken.TAG) {
+            case INT:
+                eat(Tag.INT);
+            case FLOAT:
+                eat(Tag.FLOAT);
+            case STRING:
+                eat(Tag.STRING);        
+            default:
+                ErroSintatico("Erro no Type");
+        }
+        return;
     }
     //⟨stmt-list⟩ ::= ⟨stmt⟩ {⟨stmt⟩}
     public void stmtlist() throws Exception{
-
+        try{
+            stmt();
+            stmtlist();
+        }catch(Exception e){
+            return;
+        }
     }
     //⟨stmt⟩ ::= ⟨assign-stmt⟩ ; | ⟨if-stmt⟩ | ⟨while-stmt⟩ | ⟨read-stmt⟩ ; | ⟨write-stmt⟩ ;
     public void stmt() throws Exception{
+        switch (this.currentToken.TAG) {
+            case ASSIGN:
+                assignstmt();
+                eat(Tag.SEMICOLON);            
+            case IF:
+                ifstmt();;
+            case WHILE:
+                whilestmt();;
+            case SCAN:
+                readstmt();
+                eat(Tag.SEMICOLON);
+            case PRINT:
+                writestmt();    
+                eat(Tag.SEMICOLON);
+            default:
+                ErroSintatico("Erro no Stmt");
+        }
+        return;
 
     }
     //⟨assign-stmt⟩ ::= identifier = ⟨simple-expr⟩
     public void assignstmt() throws Exception{
-
+        try{
+            identifier();
+            eat(Tag.EQ);
+            simpleexpr();
+        }catch(Exception e){
+            ErroSintatico("Erro no assign");
+        }
     }
     //⟨if-stmt⟩ ::= if ⟨condition⟩ then ⟨stmt-list⟩ ⟨if-stmt-tail⟩
     public void ifstmt() throws Exception{
-
+        try{
+            eat(Tag.IF);
+            condition();
+            eat(Tag.THEN);
+            stmtlist();
+            ifstmttail();
+        }catch(Exception e){
+            ErroSintatico("Erro no ifstmt");
+        }
     }
     //⟨if-stmt-tail⟩ ::= end | else ⟨stmt-list⟩ end
     public void ifstmttail() throws Exception{
+        switch (this.currentToken.TAG) {
+            case END:
+                eat(Tag.END);
+                break;
+            case ELSE:
+                eat(Tag.ELSE);
+                stmtlist();
+                eat(Tag.END);
+                break;
+            default:
+                ErroSintatico("Erro no ifstmttail");
+        }
+        return;
 
     }
     //⟨condition⟩ ::= ⟨expression⟩
     public void condition() throws Exception{
-
+        try{
+            expression();
+        }catch(Exception e){
+            ErroSintatico("Erro em condition");
+        }
     }
     //⟨while-stmt⟩ ::= do ⟨stmt-list⟩ ⟨stmt-sufix⟩
     public void whilestmt() throws Exception{
-
+        try{
+            eat(Tag.DO);
+            stmtlist();
+            stmtsufix();
+        }catch(Exception e){
+            ErroSintatico("Erro em while-stmt");
+        }
     }
     //⟨stmt-sufix⟩ ::= while ⟨condition⟩ end
     public void stmtsufix() throws Exception{
-
+        try{
+            eat(Tag.WHILE);
+            condition();
+            eat(Tag.END);
+        }catch(Exception e){
+            ErroSintatico("Erro em stmt-sufix");
+        }
     }
     //⟨read-stmt⟩ ::= scan ( identifier )
     public void readstmt() throws Exception{
-
+        try{
+            eat(Tag.SCAN);
+            eat(Tag.OPEN_BRACKET);
+            identifier();
+            eat(Tag.CLOSE_BRACKET);
+        }catch(Exception e){
+            ErroSintatico("Erro em read-stmt");
+        }
     }
     //⟨write-stmt⟩ ::= print ( ⟨writable⟩ )
     public void writestmt() throws Exception{
-
+        try{
+            eat(Tag.PRINT);
+            eat(Tag.OPEN_BRACKET);
+            writable();
+            eat(Tag.CLOSE_BRACKET);
+        }catch(Exception e){
+            ErroSintatico("Erro em write-stmt");
+        }
     }
     //⟨writable⟩ ::= ⟨simple-expr⟩ | literal
     public void writable() throws Exception{
@@ -199,7 +296,7 @@ public class Parser {
     }
     //identifier      ::= (letter | _ )  (letter | digit )*
     public void identifier() throws Exception{
-
+        
     }
     //letter          ::= [A-Za-z]
     public void letter () throws Exception{

@@ -14,6 +14,7 @@ public enum Tag {
   WHILE,
   SCAN,
   PRINT,
+  ELSE,
 
   // Identificador
   IDENTIFIER,

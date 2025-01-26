@@ -32,7 +32,7 @@ public class Compiler {
         Parser parser = new Parser(lexer);
   
         do{
-          parser.begin();
+          //parser.begin();
         } while(parser.getCurrentToken().TAG!=Tag.EOF); //le o proximo token ate chegar na Tag de EOF
           System.out.println("Analise sintática concluída.");
   
