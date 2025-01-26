@@ -469,28 +469,20 @@ public class Parser {
     }
     //identifier      ::= (letter | _ )  (letter | digit )*
     public void identifier() throws Exception{
-        
+        try{
+            eat(Tag.IDENTIFIER);
+        }catch(Exception e){
+            ErroSintatico("Erro em identifier");
+        }
     }
     //letter          ::= [A-Za-z]
-    public void letter () throws Exception{
-
-    }
+    
     //digit           ::= [0-9]
-    public void digit() throws Exception{
 
-    }
     //caractere       ::= um dos caracteres ASCII, exceto quebra de linha
-    public void caractere() throws Exception{
-
-    }
-
+    
     //integer_const   ::= digit+
-    public void integer_const() throws Exception{
-
-    }
+   
     //float_const     ::= digit+ "." digit+
-    public void float_const() throws Exception{
-
-    }
 
 }
