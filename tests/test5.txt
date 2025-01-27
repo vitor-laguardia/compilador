@@ -21,7 +21,7 @@ start
              maior = c;
          end
       end
-      print({Maior valor:}});
+      print({Maior valor:});
       print (maior);
       print ({Outro? });
       scan(outro);

@@ -1,8 +1,8 @@
 start
-     Int a, aux$, b;
+     Int a, aux, b;
      string nome, sobrenome, msg;
 
-     print(Nome: );
+     print(Nome);
      scan (nome);
      print({Sobrenome: });
      scan (sobrenome);

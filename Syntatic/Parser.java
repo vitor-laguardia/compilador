@@ -21,14 +21,12 @@ public class Parser {
        this.currentToken = this.lexer.scan();
     }
 
-    public SymbolTable getSymbolTable(){
-        SymbolTable symbolTable = new SymbolTable();
-        return symbolTable;
-    }
-
     public void ErroSintatico(String message) throws Exception{
         Lexical.Error error = new Lexical.Error(message, Position.line);
         System.out.println(error);
+        //
+        System.exit(1);
+        
         throw new Exception();
         } 
 
@@ -37,7 +35,7 @@ public class Parser {
             System.out.println("Comeu " + tag);
             advance();
         } else {
-            throw new Exception("Erro sintático: esperava " + tag + ", mas encontrou " + currentToken.TAG + "LINHA: " + Position.line);
+            throw new Exception("Erro sintático: esperava " + tag + ", mas encontrou " + currentToken.TAG + " LINHA: " + Position.line);
         }
 
     }
@@ -47,11 +45,8 @@ public class Parser {
     //Construções
     //⟨begin⟩ ::= ⟨program⟩#
     public void begin() throws Exception{
-
-        System.out.println("------ PROGRAMA INICIADO");
         program();
         eat(Tag.EOF);
-        System.out.println("------ PROGRAMA FINALIZADO");
     }
     //⟨program⟩ ::= start [decl-list] ⟨stmt-list⟩ exit
     public void program() throws Exception{
