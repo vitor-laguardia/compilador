@@ -1,3 +1,4 @@
+start
 int pontuacao, pontuacaoMaxina, disponibilidade; 
   string pontuacaoMinima; 
  
@@ -5,18 +6,18 @@ int pontuacao, pontuacaoMaxina, disponibilidade;
   pontuacaoMinima = 50; 
   pontuacaoMaxima = 100; 
   
-  /* Entrada de dados */
-     Verifica aprovação de candidatos   
+  /* Entrada de dados 
+     Verifica aprovação de candidatos  */ 
   do  
      print({Pontuacao Candidato: }); 
      scan(pontuacao); 
      print({Disponibilidade Candidato: }); 
      scan(disponibilidade); 
  
-     if ((pontuação > pontuacaoMinima) && (disponibilidade=={Sim}) then
-      out({Candidato aprovado}); 
+     if ((pontuação > pontuacaoMinima) && (disponibilidade=={Sim})) then
+         print({Candidato aprovado}); 
      else     
-        out({Candidato reprovado}) 
+        print({Candidato reprovado}); 
      end 
   while (pontuação >= 0)end 
 exit

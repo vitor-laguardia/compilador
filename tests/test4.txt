@@ -1,5 +1,5 @@
 start
-     Int a, aux, b;
+     int a, aux, b;
      string nome, sobrenome, msg;
 
      print(Nome);
@@ -17,8 +17,8 @@ sobrenome + {!};
        aux = b;
        b = a;
        a = aux;
-     end;
+     end
      print ({Apos a troca: });
-     out(a);
-     out(b)
+     print(a);
+     print(b);
 exit
