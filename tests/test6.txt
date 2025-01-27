@@ -17,6 +17,8 @@ start
   
     if(restoImpar != 0) then
       print({Numero impar!});
+      else
+      a
     end
     
  exit

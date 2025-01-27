@@ -1,17 +1,17 @@
 start
   float a; 
-  int b; 
+  int b, result; 
   float a,x,total; 
+
   a = 2.0;
-  x = 1;
+  x = .1;
   scan (b);
-  scan (y);
+  scan (y)
   result = (a*b ++ 1) % a;
-  else;
   print {Resultado: };
   print (result);
   print ({Total: });
   total = y / x;
   print ({Total: };
-  print (total);
+  print (total);
 exit

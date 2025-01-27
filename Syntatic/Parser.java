@@ -133,30 +133,32 @@ public class Parser {
     }
     //⟨stmt⟩ ::= ⟨assign-stmt⟩ ; | ⟨if-stmt⟩ | ⟨while-stmt⟩ | ⟨read-stmt⟩ ; | ⟨write-stmt⟩ ;
     public void stmt() throws Exception{
-        switch (this.currentToken.TAG) {
-            case IDENTIFIER:
-                assignstmt();
-                eat(Tag.SEMICOLON);     
-                break;       
-            case IF:
-                ifstmt();
-                break;
-            case DO:
-                whilestmt();
-                break;
-            case SCAN:
-                readstmt();
-                eat(Tag.SEMICOLON);
-                break;
-            case PRINT:
-                writestmt();    
-                eat(Tag.SEMICOLON);
-                break;
-            default:
-                ErroSintatico("Erro no Stmt");
+        try{
+            switch (this.currentToken.TAG) {
+                case IDENTIFIER:
+                    assignstmt();
+                    eat(Tag.SEMICOLON);     
+                    break;       
+                case IF:
+                    ifstmt();
+                    break;
+                case DO:
+                    whilestmt();
+                    break;
+                case SCAN:
+                    readstmt();
+                    eat(Tag.SEMICOLON);
+                    break;
+                case PRINT:
+                    writestmt();    
+                    eat(Tag.SEMICOLON);
+                    break;
+                default:
+                    ErroSintatico("Erro no Stmt");
+            }
+        }catch(Exception e){
+            ErroSintatico("Erro no Stmt");
         }
-        return;
-
     }
     //⟨assign-stmt⟩ ::= identifier = ⟨simple-expr⟩
     public void assignstmt() throws Exception{
