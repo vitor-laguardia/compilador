@@ -1,3 +1,4 @@
+package Lexical;
 public class Token {
   public final Tag TAG;
 

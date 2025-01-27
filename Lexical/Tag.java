@@ -1,5 +1,7 @@
-enum Tag {
+package Lexical;
+public enum Tag {
   // Palavras Reservadas
+  PROGRAM,
   START,
   EXIT,
   INT,
@@ -12,6 +14,7 @@ enum Tag {
   WHILE,
   SCAN,
   PRINT,
+  ELSE,
 
   // Identificador
   IDENTIFIER,
