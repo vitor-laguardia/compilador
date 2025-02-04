@@ -12,6 +12,7 @@ public class SymbolTable {
     addWord(new Word(Tag.STRING, "string"));
     addWord(new Word(Tag.IF, "if"));
     addWord(new Word(Tag.THEN, "then"));
+    addWord(new Word(Tag.ELSE, "else"));
     addWord(new Word(Tag.END, "end"));
     addWord(new Word(Tag.DO, "do"));
     addWord(new Word(Tag.WHILE, "while"));
