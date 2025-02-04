@@ -6,6 +6,7 @@ enum Tag {
   FLOAT,
   STRING,
   IF,
+  ELSE,
   THEN,
   END,
   DO,
