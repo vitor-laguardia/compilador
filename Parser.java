@@ -17,7 +17,9 @@ public class Parser {
     if (token.TAG == t)
       advance();
     else
-      System.out.println("Error: expected " + t + " at line " + Position.line);
+      throw ExceptionFactory.createParserException(
+          "Unexpected symbol " + "'" + token.toString() + "'" + "," + " expected " + "'" + t + "'", Position.line);
+
   }
 
   private Tag getWhichRelopTag(Tag relop) {
@@ -102,8 +104,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em factor");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -129,8 +131,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em factor A");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -162,8 +164,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em termTail");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -182,8 +184,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em term");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -211,8 +213,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em simpleExprTail");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -231,8 +233,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em simpleExpr");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -255,8 +257,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em expressionTail");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -275,8 +277,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em expression");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -297,8 +299,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro no writable");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -313,8 +315,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro writeStmt");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -329,8 +331,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em readtStmt");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -344,8 +346,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em stmtSufix");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -359,8 +361,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em whileStmt");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -377,8 +379,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em condition");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -396,8 +398,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em ifStmtTail");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -413,8 +415,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em ifStmt");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -424,13 +426,12 @@ public class Parser {
       case IDENTIFIER:
         eat(Tag.IDENTIFIER);
         eat(Tag.ASSIGN);
-        // System.err.println("vai entrar em simpleExpr");
         simpleExpr();
         break;
 
       default:
-        System.out.println("Erro em assignStmt");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -462,8 +463,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em stmt");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -482,8 +483,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em stmtList");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -503,8 +504,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em type");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -520,8 +521,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em identList");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -537,8 +538,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em decl");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -554,8 +555,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em declList");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -571,8 +572,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em program");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
@@ -585,8 +586,8 @@ public class Parser {
         break;
 
       default:
-        System.out.println("Erro em begin");
-        break;
+        throw ExceptionFactory.createParserException("Unexpected symbol " + "'" + token.toString() + "'",
+            Position.line);
     }
   }
 
