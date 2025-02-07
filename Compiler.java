@@ -11,13 +11,14 @@ public class Compiler {
 
     try {
       Lexer lexer = new Lexer(args[0]);
-
       Parser parser = new Parser(lexer);
-
       parser.begin();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.err.println(e.getMessage());
+    } catch (LexicalException e) {
+      System.err.println(e.getMessage());
+    } catch (ParserException e) {
+      System.err.println(e.getMessage());
     }
   }
 }
