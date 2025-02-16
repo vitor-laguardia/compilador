@@ -1,3 +1,4 @@
+package Lexical;
 public class StringConst extends Token {
   String content;
 

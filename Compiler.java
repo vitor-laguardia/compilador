@@ -1,3 +1,6 @@
+import Lexical.*;
+import Syntatic.*;
+
 import java.io.IOException;
 
 public class Compiler {

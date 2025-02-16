@@ -1,4 +1,5 @@
-class Word extends Token {
+package Lexical;
+public class Word extends Token {
   private String lexeme = "";
 
   Word(Tag tag, String lexeme) {
