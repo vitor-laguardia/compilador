@@ -1,11 +1,6 @@
-import Lexical.*;
-import Syntatic.*;
-
 import java.io.IOException;
 
 public class Compiler {
-  static boolean erro = false;
-
   public static void main(String[] args) {
     if (args.length == 0) {
       System.out.println("Por favor, forneça o caminho do arquivo como argumento.");
