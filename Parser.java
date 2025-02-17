@@ -550,7 +550,7 @@ public class Parser {
       case FLOAT:
       case STRING:
         decl();
-        if (token.TAG == Tag.INT || token.TAG == Tag.FLOAT || token.TAG == Tag.STRING)
+        while (token.TAG == Tag.INT || token.TAG == Tag.FLOAT || token.TAG == Tag.STRING)
           decl();
         break;
 
