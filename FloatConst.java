@@ -1,4 +1,3 @@
-package Lexical;
 public class FloatConst extends Token {
   public final float value;
 

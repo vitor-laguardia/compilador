@@ -1,4 +1,3 @@
-package Lexical;
 public class IntegerConst extends Token {
   public final int value;
 

@@ -1,5 +1,3 @@
-package Lexical;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -80,7 +78,7 @@ public class Lexer {
 
       readch();
       if (!Character.isDigit(ch)) {
-        return new Error("Invalid float number", Position.line);
+        throw ExceptionFactory.createLexicalException("Invalid float number: " + ch, Position.line);
       }
 
       float floatValue = intValue;
@@ -126,7 +124,8 @@ public class Lexer {
         if (readch('|'))
           return new Token(Tag.OR);
         else
-          return new Error("Invalid character '|'", Position.line);
+          throw ExceptionFactory.createLexicalException("Invalid character: '|'", Position.line);
+
       case '*':
         ch = ' ';
         return new Token(Tag.MULT);
@@ -147,7 +146,7 @@ public class Lexer {
             if (ch == '\n')
               Position.line++;
             if (ch == '#')
-              return new Error("Comment not closed", Position.line);
+              throw ExceptionFactory.createLexicalException("Comment not closed", Position.line);
             else
               readch();
           }
@@ -161,7 +160,8 @@ public class Lexer {
         if (readch('&'))
           return new Token(Tag.AND);
         else
-          return new Error("Invalid character '&'", Position.line);
+          throw ExceptionFactory.createLexicalException("Invalid character: '&'", Position.line);
+
     }
 
     // String const
@@ -180,7 +180,7 @@ public class Lexer {
         return new StringConst(s);
       }
 
-      return new Error("Unexpected line break", Position.line);
+      throw ExceptionFactory.createLexicalException("Unexpected line break", Position.line);
     }
 
     // Outros caracteres
@@ -203,9 +203,8 @@ public class Lexer {
       return new Token(Tag.EOF);
     }
 
-    Token t = new Error("Unexpected token: '" + ch + "'", Position.line);
-    ch = ' ';
-    return t;
+    // Error
+    throw ExceptionFactory.createLexicalException("Unexpected character: '" + ch + "'", Position.line);
   }
 
 }

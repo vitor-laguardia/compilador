@@ -1,4 +1,3 @@
-package Lexical;
 public class Token {
   public final Tag TAG;
 
@@ -7,6 +6,6 @@ public class Token {
   }
 
   public String toString() {
-    return "Token: " + TAG;
+    return "" + TAG;
   }
 }

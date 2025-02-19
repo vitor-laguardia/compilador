@@ -1,4 +1,3 @@
-package Lexical;
 public class Word extends Token {
   private String lexeme = "";
 
@@ -12,7 +11,7 @@ public class Word extends Token {
   }
 
   public String toString() {
-    return "Token: " + super.TAG + " | Lexeme: " + lexeme;
+    return lexeme;
   }
 
 }
