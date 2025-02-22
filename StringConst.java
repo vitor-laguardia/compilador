@@ -1,5 +1,6 @@
 public class StringConst extends Token {
   String content;
+  public final Type type = Type.STRING;
 
   StringConst(String content) {
     super(Tag.STRING_CONST);
