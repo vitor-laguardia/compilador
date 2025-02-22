@@ -9,13 +9,17 @@ public class Compiler {
 
     try {
       Lexer lexer = new Lexer(args[0]);
-      Parser parser = new Parser(lexer);
+      Semantic semantic = new Semantic();
+      Parser parser = new Parser(lexer, semantic);
+
       parser.begin();
     } catch (IOException e) {
       System.err.println(e.getMessage());
     } catch (LexicalException e) {
       System.err.println(e.getMessage());
     } catch (ParserException e) {
+      System.err.println(e.getMessage());
+    } catch (SemanticException e) {
       System.err.println(e.getMessage());
     }
   }
